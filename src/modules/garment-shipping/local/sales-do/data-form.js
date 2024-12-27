@@ -37,14 +37,10 @@ export class DataForm {
     };
 
     itemsColumns = [
-        { header: "Komoditas Barang" },
-        { header: "Description" },
+        { header: "Kode Nama Barang" },
+        { header: "Keterangan" },
         { header: "Quantity " },
         { header: "Satuan" },
-        { header: "Jumlah Kemasan" },
-        { header: "Satuan Kemasan" },
-        { header: "Gross Weight" },
-        { header: "Nett Weight" },
     ];
 
     get salesContractLoader() {
@@ -71,25 +67,25 @@ export class DataForm {
     selectedSalesContractChanged(newValue) {
         if (this.data.id) return;
 
-        this.data.localSalesContractNo = null;
-        this.data.localSalesContractId = 0;
+        this.data.localSalesNoteNo = null;
+        this.data.localSalesNoteId = 0;
         this.data.buyer = null;
         this.data.items.splice(0);
-
         if (newValue) {
             this.data.localSalesContractNo = newValue.salesContractNo;
             this.data.localSalesContractId = newValue.id;
             this.data.buyer = newValue.buyer;
-            this.service.salesContractGetById(this.data.localSalesContractId)
-                .then(salesContract => {
-                    let doItem = {};
-                    doItem.comodityName = salesContract.comodityName;
-                    doItem.quantity = salesContract.quantity;
-                    doItem.uom = salesContract.uom;
-                    // doItem.packQuantity = 0;
-                    // doItem.packUom = null;
-                    this.data.items.push(doItem);
-                });
+
+            for (var item of newValue.items) {
+                let doItem = {};
+                doItem.localSalesContractItemId = item.id;
+                doItem.product = item.product;
+                doItem.quantity = item.quantity;
+                doItem.uom = item.uom;
+                doItem.description = item.remark;
+                this.data.items.push(doItem);
+            }
+            
         }
     }
 }

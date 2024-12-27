@@ -18,17 +18,7 @@ export class View {
         if (this.data) {
 
             this.selectedTransactionType = this.data.transactionType;
-
-            this.data.items = [];
-            this.data.items.push({
-                comodityName : this.data.comodityName,
-                quantity : this.data.quantity,
-                remainingQuantity : this.data.remainingQuantity,
-                uom : this.data.uom,
-                price : this.data.price,
-                remark : this.data.remark
-            });
-
+            
             if (this.data.isLocalSalesDOCreated) {
                 this.deleteCallback=null;
                 this.editCallback=null;

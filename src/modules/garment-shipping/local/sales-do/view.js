@@ -13,21 +13,6 @@ export class View {
     async activate(params) {
         var id = params.id;
         this.data = await this.service.getById(id);
-
-        if (this.data) {
-            this.data.items = [];
-
-            this.data.items.push({
-                comodityName : this.data.comodityName,
-                description : this.data.description,
-                quantity : this.data.quantity,
-                packQuantity : this.data.packQuantity,
-                uom : this.data.uom,
-                packUom : this.data.packUom,
-                nettWeight : this.data.nettWeight,
-                grossWeight : this.data.grossWeight
-            });
-        }
         
         var localSalesContract = await this.service.salesContractGetById(this.data.localSalesContractId);
         if (localSalesContract.remainingQuantity != localSalesContract.quantity)

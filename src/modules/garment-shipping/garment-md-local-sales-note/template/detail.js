@@ -10,6 +10,11 @@ export class Detail {
   @bindable selectedBon;
   constructor(service) {
     this.service = service;
+
+     // Add event listener to clear cache on page reload
+     window.addEventListener('beforeunload', () => {
+      localStorage.removeItem('bonNoList');
+    });
   }
 
   activate(context) {
@@ -22,6 +27,9 @@ export class Detail {
     if (this.data.bonNo) {
       this.selectedBon = this.data.bonNo;
     }
+
+    // Get the existing cache
+    this.bonNoList = JSON.parse(localStorage.getItem('bonNoList')) || [];
   }
 
   get expenditureGoodLoader() {
@@ -44,12 +52,12 @@ export class Detail {
         keyword: keyword,
         filterProduction: {
           ExpenditureType: "LAIN-LAIN",
-          // IsLocalSalesNote: false,
+          IsLocalSalesNote: false,
         },
         filterSample: {
           IsReceived: false,
           ExpenditureType: "PENGIRIMAN LOKAL",
-          // IsLocalSalesNote: false,
+          IsLocalSalesNote: false,
         },
         filterLeftOver: {
           ExpenditureTo: "JUAL LOKAL",
@@ -60,7 +68,7 @@ export class Detail {
       var noList = [];
 
       //Get data from Production
-      ExpenditureGoodLoader(keyword, info.filterProduction).then((result) => {
+      await ExpenditureGoodLoader(keyword, info.filterProduction).then((result) => {
         for (var a of result) {
           var dup = noList.find(
             (d) => d.ExpenditureGoodNo == a.ExpenditureGoodNo
@@ -71,23 +79,24 @@ export class Detail {
             );
 
             if (!selected) {
-              a.bonNo = a.ExpenditureGoodNo;
-              a.quantity = a.TotalQuantity;
-              a.uom = {
+              var no = {};
+              no.bonNo = a.ExpenditureGoodNo;
+              no.quantity = a.TotalQuantity;
+              no.uom = {
                 id: 43,
                 unit: "PCS",
               };
-              a.bonFrom = "PRODUKSI";
-              a.comodity = a.Comodity;
-              a.roNO = a.RONo;
-              noList.push(a);
+              no.bonFrom = "PRODUKSI";
+              no.roNo = a.RONo;
+              no.comodity = a.Comodity;
+              noList.push(no);
             }
           }
         }
       });
 
       //Get data from Sample
-      ExpenditureGoodSampleLoader(keyword, info.filterSample).then((result) => {
+      await ExpenditureGoodSampleLoader(keyword, info.filterSample).then((result) => {
         for (var a of result) {
           var dup = noList.find(
             (d) => d.ExpenditureGoodNo == a.ExpenditureGoodNo
@@ -98,23 +107,24 @@ export class Detail {
             );
 
             if (!selected) {
-              a.bonNo = a.ExpenditureGoodNo;
-              a.quantity = a.TotalQuantity;
-              a.uom = {
+              var no = {};
+              no.bonNo = a.ExpenditureGoodNo;
+              no.quantity = a.TotalQuantity;
+              no.uom = {
                 id: 43,
                 unit: "PCS",
               };
-              a.bonFrom = "SAMPLE";
-              a.comodity = a.Comodity;
-              a.roNO = a.RONo;
-              noList.push(a);
+              no.bonFrom = "SAMPLE";
+              no.roNo = a.RONo;
+              no.comodity = a.Comodity;
+              noList.push(no);
             }
           }
         }
       });
 
       //get data from Leftover
-      LeftOverFinishedGoodsLoader(keyword, info.filterLeftOver).then(
+      await LeftOverFinishedGoodsLoader(keyword, info.filterLeftOver).then(
         (result) => {
           for (var a of result) {
             var dup = noList.find(
@@ -126,40 +136,37 @@ export class Detail {
               );
 
               if (!selected) {
-                a.bonNo = a.FinishedGoodExpenditureNo;
-                a.quantity = parseFloat(a.Description);
-                a.uom = {
+                var no = {};
+                no.bonNo = a.FinishedGoodExpenditureNo;
+                no.quantity = parseFloat(a.Description);
+                no.uom = {
                   id: 43,
                   unit: "PCS",
                 };
-                a.bonFrom = "SISA";
-                // a.comodity = a.Comodity;
-                // a.roNO = a.RONo;
+                no.bonFrom = "SISA";
+                no.detailItems = [];
 
-                //mapping item to detailItems
-                a.detailItems = [];
-
-                a.Items.forEach((item) => {
-                  var detail = {
-                    quantity: item.ExpenditureQuantity,
-                    uom: {
-                      id: 43,
-                      unit: "PCS",
-                    },
-                    comodity: item.LeftoverComodity,
-                    roNO: item.RONo,
+                //mapping detail
+                for (var item of a.Items) {
+                  var detail = {};
+                  detail.quantity = item.ExpenditureQuantity;
+                  detail.uom = {
+                    id: 43,
+                    unit: "PCS",
                   };
+                  detail.roNo = item.RONo;
+                  detail.comodity = item.LeftoverComodity;
+                  no.detailItems.push(detail);
+                }
 
-                  a.detailItems.push(detail);
-                });
-                noList.push(a);
+                noList.push(no);
               }
             }
           }
         }
       );
-
-      return noList;
+      
+      return noList.filter(item => !this.bonNoList.includes(item.bonNo));
     };
   }
 
@@ -175,9 +182,20 @@ export class Detail {
       this.data.quantity = newValue.quantity;
       this.data.uom = newValue.uom;
       this.data.bonFrom = newValue.bonFrom;
+      this.data.roNo = newValue.roNo;
       this.data.comodity = newValue.comodity;
-      this.data.roNO = newValue.roNO;
-      this.data.detailItems = newValue.detailItems;
+      
+      // Check if the selected item has detailItems
+      if(newValue.detailItems){
+        this.data.detailItems = newValue.detailItems;
+      }
+
+      // Push the new value into the cache
+      this.bonNoList.push(newValue.bonNo);
+
+      // Save the updated cache back to localStorage
+      localStorage.setItem('bonNoList', JSON.stringify( this.bonNoList))
+      
     } else {
       this.data.bonNo = null;
       this.data.quantity = 0;

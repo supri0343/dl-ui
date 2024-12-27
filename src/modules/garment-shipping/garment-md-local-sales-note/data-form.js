@@ -3,7 +3,7 @@ import {
   bindable,
   containerless,
   computedFrom,
-  BindingEngine,
+  BindingEngine
 } from "aurelia-framework";
 import { Service, CoreService } from "./service";
 
@@ -44,17 +44,19 @@ export class DataForm {
   };
 
   filterSC = {
-    "(RemainingQuantity>0)": true,
+    IsLocalSalesNote: false,
     IsLocalSalesDOCreated: true,
   };
 
   paymentTypeOptions = ["TUNAI", "TEMPO"];
-  bcTypeOptions = ["BC 27", "BC 25", "BC 41"];
+  bcTypeOptions = ["","BC 27", "BC 25", "BC 41"];
   items = {
     columns: [
       "Komoditi Barang",
       "Quantity",
       "Satuan",
+      "Jumlah Kemasan",
+      "Satuan Kemasan",
       "Harga",
       "Total",
       "Keterangan",
@@ -143,12 +145,6 @@ export class DataForm {
       if (this.data.paymentType) {
         this.selectedPaymentType = this.data.paymentType;
       }
-      var sc = await this.service.getSCById(this.data.localSalesContractId);
-      for (var item of this.data.items) {
-        if (sc) {
-          item.remQty = sc.remainingQuantity + item.quantity;
-        }
-      }
     }
 
     this.selectedVatTax = this.data.vat || false;
@@ -192,6 +188,7 @@ export class DataForm {
         this.data.transactionType = newValue.transactionType;
         this.data.buyer = newValue.buyer;
         this.data.useVat = newValue.isUseVat;
+        this.data.comodityCategory = newValue.comodityCategory;
 
         this.data.vat = {
           id: newValue.vat.Id || newValue.vat.id,
@@ -199,16 +196,20 @@ export class DataForm {
         };
 
         //mapping items from SC
-        var item = {};
-        item.localSalesContractId = newValue.id;
-        item.comodityName = newValue.comodityName;
-        item.quantity = newValue.remainingQuantity;
-        item.uom = newValue.uom;
-        item.price = newValue.price;
-        item.remark = newValue.remark;
-        item.remQty = newValue.remainingQuantity;
-        item.details = [{}];
-        this.data.items.push(item);
+        newValue.items.forEach(item => {
+          var dataItem = {};
+          dataItem.localSalesContractItemId = item.id;
+          dataItem.product = item.product;
+          dataItem.productView = item.product.code + " - " + item.product.name;
+          dataItem.quantity = item.quantity;
+          dataItem.uom = item.uom;
+          dataItem.price = item.price;
+          dataItem.remark = item.remark;
+          dataItem.remQty = item.remainingQuantity;
+          // dataItem.details = [{}];
+          this.data.items.push(dataItem);
+        });
+      
       }
     } else {
       this.data.transactionType = null;
