@@ -2,8 +2,8 @@
     <tr>
         <td>
             <au-textbox
-                value.bind="data.comodityName || ''"
-                error.bind="error.comodity"
+                value.bind="productView"
+                error.bind="error.product"
                 read-only.bind="true">
             </au-textbox>
         </td>
@@ -28,7 +28,7 @@
                 read-only.bind="true">
             </au-textbox>
         </td>
-        <td>
+        <!-- <td>
             <au-numeric
                 value.bind="data.packQuantity"
                 error.bind="error.packQuantity"
@@ -42,11 +42,11 @@
                 placeholder="Satuan Kemasan" text.bind="uomView">
             </au-autocomplete>
             
-            <!-- <au-textbox
+            <au-textbox
                 value.bind="data.packUom.unit || ''"
                 error.bind="error.packUom"
                 read-only.bind="true">
-            </au-textbox> -->
+            </au-textbox>
         </td>
         <td>
             <au-numeric
@@ -61,7 +61,7 @@
                 error.bind="error.nettWeight"
                 read-only.bind="readOnly">
             </au-numeric>
-        </td>
+        </td> -->
      </tr>
 </template>
 

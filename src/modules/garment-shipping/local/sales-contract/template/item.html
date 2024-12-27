@@ -1,12 +1,16 @@
 <template>
     <tr>
+        <td width="20%">
+
+            <au-autocomplete value.bind="selectedProduct" error.bind="error.comodity" text.bind="comoView"
+                read-only.bind="options.readOnly" loader.bind="leftoverComodityLoader" options.bind="controlOption">
+            </au-autocomplete>
+        </td>
+
         <td class="col-sm-2">
-            <au-dropdown
-                value.bind="data.comodityName"
-                items.bind="comodityOptions"
-                error.bind="error.comodity"
-                read-only.bind="readOnly">
-            </au-dropdown>
+            <au-textbox value.bind="data.remark" read-only.bind="readOnly" error.bind="error.remark"
+                options.bind="controlOptions">
+            </au-textbox>
         </td>
 
         <td class="col-sm-1">
@@ -19,7 +23,7 @@
                 read-only.bind="readOnly" placeholder="Satuan" text.bind="uomView">
             </au-autocomplete>
         </td>
-        
+
         <td class="col-sm-1">
             <au-numeric value.bind="data.price" error.bind="error.price" read-only.bind="readOnly">
             </au-numeric>
@@ -30,12 +34,10 @@
             </au-numeric>
         </td>
 
-        <td class="col-sm-2">
-            <au-textbox value.bind="data.remark"
-                        read-only.bind="readOnly"
-                        error.bind="error.remark"
-                        options.bind="controlOptions">
-            </au-textbox>
+
+        <td class="col-sm-1" if.bind="!readOnly">
+            <button class="btn btn-danger pull-right" click.delegate="onremove(data, $event)">-</button>
         </td>
+
     </tr>
 </template>

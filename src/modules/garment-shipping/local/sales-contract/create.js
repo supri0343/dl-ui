@@ -28,17 +28,6 @@ export class Create {
     }
 
     saveCallback(event) {
-
-        for(var item of this.data.items) {
-            //item.remainingQuantity=item.quantity;
-            this.data.uom = item.uom;
-            this.data.quantity = item.quantity;
-            this.data.remainingQuantity = item.quantity;
-            this.data.comodityName = item.comodityName;
-            this.data.price = item.price;
-            this.data.remark = item.remark;
-        }
-
         this.service.create(this.data)
             .then(result => {
                 alert("Data berhasil dibuat");
@@ -46,14 +35,6 @@ export class Create {
             })
             .catch(error => {
                 this.error = error;
-
-                this.error.items = [];
-                this.error.items.push({
-                    comodity : this.error.comodity,
-                    quantity : this.error.quantity,
-                    uom : this.error.uom,
-                    price : this.error.price,
-                });
             });
     }
 }

@@ -27,18 +27,6 @@ export class Create {
     }
 
     saveCallback(event) {
-
-        for(var item of this.data.items) {
-            this.data.comodityName = item.comodityName;
-            this.data.description = item.description,
-            this.data.quantity = item.quantity;
-            this.data.uom = item.uom
-            this.data.packQuantity = item.packQuantity;
-            this.data.packUom = item.packUom;
-            this.data.grossWeight = item.grossWeight;
-            this.data.nettWeight = item.nettWeight;
-        }
-
         this.service.create(this.data)
             .then(result => {
                 alert("Data berhasil dibuat");
@@ -46,14 +34,6 @@ export class Create {
             })
             .catch(error => {
                 this.error = error;
-
-                this.error.items = [];
-                this.error.items.push({
-                    quantity : this.error.quantity,
-                    packUom : this.error.packUom,
-                    nettWeight : this.error.nettWeight,
-                    grossWeight : this.error.grossWeight,
-                });
             });
     }
 }

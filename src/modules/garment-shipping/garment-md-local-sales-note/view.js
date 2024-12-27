@@ -19,6 +19,12 @@ export class View {
             this.editCallback=null;
             this.deleteCallback=null;
         }
+
+        if (this.data.items) {
+            this.data.items.forEach(item => {
+                item.productView = item.product.code + " - " + item.product.name;
+            });
+        }
         if(this.data.isRejectedShipping){
             this.alertInfo = "<strong>Alasan Reject oleh Shipping:</strong> " + this.data.rejectedReason;
         }

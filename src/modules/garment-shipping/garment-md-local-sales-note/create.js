@@ -23,18 +23,23 @@ export class Create {
 
   cancelCallback(event) {
     this.router.navigateToRoute("list");
+    localStorage.removeItem('bonNoList');
   }
 
   saveCallback(event) {
+  
     this.service
       .create(this.data)
       .then((result) => {
         alert("Data berhasil dibuat");
+        
         this.router.navigateToRoute(
           "create",
           {},
           { replace: true, trigger: true }
         );
+
+        localStorage.removeItem('bonNoList');
       })
       .catch((error) => {
         this.error = error;

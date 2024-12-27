@@ -17,6 +17,10 @@ export class items {
         this.readOnly = this.options.readOnly;
         this.isCreate = context.context.options.isCreate;
         this.isEdit = context.context.options.isEdit;
+        
+        if (this.data.product) {
+            this.productView = this.data.product.code + ' - ' + this.data.product.name;
+        }
     }
 
     get uomLoader() {
