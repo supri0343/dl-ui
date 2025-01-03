@@ -1,6 +1,7 @@
 import { bindable, inject, computedFrom } from "aurelia-framework";
 import { data } from "jquery";
 import { Service } from "./service";
+import { size } from "underscore";
 var moment = require("moment");
 
 const ContractLoader = require("../../../loader/garment-subcon-contract-loader");
