@@ -203,6 +203,7 @@ export class DataForm {
       Promise.resolve(
         this.service.searchDeliveryLetterOut({
           filter: JSON.stringify({ ContractNo: this.data.SubconContractNo }),
+          size: 99999,
         })
       ).then((result) => {
         for (var dl of result.data) {
@@ -240,6 +241,7 @@ export class DataForm {
       });
       const dataCustomsOut = await this.service.searchComplete({
         filter: JSON.stringify({ SubconContractId: newValue.Id }),
+        size: 99999,
       });
       const dataJumlahCustomsOut = dataCustomsOut.data.map((x) => {
         return x.Items.reduce((acc, cur) => (acc += cur.Quantity), 0);
