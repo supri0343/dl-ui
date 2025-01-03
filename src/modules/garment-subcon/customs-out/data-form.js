@@ -1,6 +1,7 @@
 import { bindable, inject, computedFrom } from "aurelia-framework";
 import { data } from "jquery";
 import { Service } from "./service";
+import { size } from "underscore";
 var moment = require("moment");
 
 const ContractLoader = require("../../../loader/garment-subcon-contract-loader");
@@ -203,6 +204,7 @@ export class DataForm {
       Promise.resolve(
         this.service.searchDeliveryLetterOut({
           filter: JSON.stringify({ ContractNo: this.data.SubconContractNo }),
+          size: 99999,
         })
       ).then((result) => {
         for (var dl of result.data) {
@@ -240,6 +242,7 @@ export class DataForm {
       });
       const dataCustomsOut = await this.service.searchComplete({
         filter: JSON.stringify({ SubconContractId: newValue.Id }),
+        size: 99999,
       });
       const dataJumlahCustomsOut = dataCustomsOut.data.map((x) => {
         return x.Items.reduce((acc, cur) => (acc += cur.Quantity), 0);

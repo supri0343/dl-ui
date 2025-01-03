@@ -12,7 +12,6 @@ export class Item {
     this.selectedSubconCategory =
       context.context.options.selectedSubconCategory;
 
-    console.log("dataItem", this.data);
     this.itemOptions = {
       error: this.error,
       isCreate: this.isCreate,
