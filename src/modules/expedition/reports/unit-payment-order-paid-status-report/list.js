@@ -304,12 +304,14 @@ export class List {
             
             
             status : this.status,
-            dateFromDue : moment(this.dateFromDue).format("MM/DD/YYYY"),
-            dateToDue : moment(this.dateToDue).format("MM/DD/YYYY"),
-            dateFrom : moment(this.dateFrom).format("MM/DD/YYYY"),
-            dateTo : moment(this.dateTo).format("MM/DD/YYYY")
-        };
 
+            
+            dateFromDue : this.dateFromDue? moment(this.dateFromDue).format("MM/DD/YYYY") : "",
+            dateToDue : this.dateToDue ? moment(this.dateToDue).format("MM/DD/YYYY"): "",
+            dateFrom : this.dateFrom ? moment(this.dateFrom).format("MM/DD/YYYY"): "",
+            dateTo : this.dateTo ? moment(this.dateTo).format("MM/DD/YYYY"): ""
+        };
+            console.log(args);
             this.service.generateExcel(args)
                 .catch(e => {
                     alert(e.replace(e, "Error: ", ""));
