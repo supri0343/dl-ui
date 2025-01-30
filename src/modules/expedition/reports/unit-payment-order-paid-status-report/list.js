@@ -271,7 +271,50 @@ export class List {
 
         this.page = 0;
         this.excelData = [];
-        this.getExcelData();
+        //this.getExcelData();
+        this.xls();
+    }
+    
+    xls() {
+        this.error = {};
+
+        if (!this.dateFromDue)
+            this.error.dateFromDue = "Tanggal Awal harus diisi";
+        else if (!this.dateToDue)
+            this.error.dateToDue = "Tanggal Akhir harus diisi";
+        // else if (!this.dateFrom)
+        //     this.error.dateFrom = "Tanggal Awal harus diisi";
+        // else if (!this.dateTo)
+        //     this.error.dateTo = "Tanggal Akhir harus diisi";
+        if (Object.getOwnPropertyNames(this.error).length === 0) {
+            let args = {
+            unitPaymentOrderNo : this.unitPaymentOrder ? this.unitPaymentOrder.no : "",
+
+            supplierCode : this.supplier ? this.supplier.code : "",
+            
+    
+            
+            divisionCode : this.division ? this.division.Code : "",
+            
+            
+            SupplierType : this.SupplierType,
+            
+            
+            PaymentMethod : this.PaymentMethod,
+            
+            
+            status : this.status,
+            dateFromDue : moment(this.dateFromDue).format("MM/DD/YYYY"),
+            dateToDue : moment(this.dateToDue).format("MM/DD/YYYY"),
+            dateFrom : moment(this.dateFrom).format("MM/DD/YYYY"),
+            dateTo : moment(this.dateTo).format("MM/DD/YYYY")
+        };
+
+            this.service.generateExcel(args)
+                .catch(e => {
+                    alert(e.replace(e, "Error: ", ""));
+                });
+        }
     }
 
     reset() {
