@@ -894,8 +894,8 @@ module.exports = [
     },
   },
   {
-    route: "",
-    name: "monitoring-cost-of-good-sold",
+    route: "accounting/Laporan Gross Profit",
+    name: "monitoring-gross-profit",
     moduleId: "./modules/accounting/reports/monitoring-cost-of-good-sold/index",
     nav: true,
     title: "Laporan Gross Profit",
