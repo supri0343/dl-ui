@@ -63,6 +63,50 @@ export class List {
           maximumFractionDigits: 2,
         });
 
+      this.WIPBeginningBalancePrice =
+        result.data.WIPBeginningBalancePrice.toLocaleString("en-EN", {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        });
+
+      this.WIPEndBalancePrice = result.data.WIPEndBalancePrice.toLocaleString(
+        "en-EN",
+        {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        }
+      );
+
+      this.FinishedGoodsBeginningBalancePrice =
+        result.data.FinishedGoodsBeginningBalancePrice.toLocaleString("en-EN", {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        });
+
+      this.FinishedGoodsEndBalancePrice =
+        result.data.FinishedGoodsEndBalancePrice.toLocaleString("en-EN", {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        });
+      this.bebanPokok =
+        result.data.WIPEndBalancePrice + result.data.RawMaterialExpendPrice;
+
+      this.bebanPokokPenjualan =
+        result.data.FinishedGoodsEndBalancePrice + this.bebanPokok;
+
+      this.bebanPokokPrice = this.bebanPokok.toLocaleString("en-EN", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      });
+
+      this.bebanPokokPenjualanPrice = this.bebanPokokPenjualan.toLocaleString(
+        "en-EN",
+        {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        }
+      );
+
       this.costOfGoodsSold = this.RawMaterialExpendPrice;
       //get show data or not by checking the length of the data
       this.showData = Object.keys(this.data).length > 0;
