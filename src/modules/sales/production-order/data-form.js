@@ -13,6 +13,7 @@ var MaterialLoader = require("../../../loader/product-loader");
 var FinishTypeLoader = require('../../../loader/finish-type-loader');
 var StandardTests = require('../../../loader/standard-tests-loader');
 var AccountLoader = require('../../../loader/account-loader');
+var CurrencyLoader = require('../../../loader/currency-loader');
 
 @inject(BindingEngine, Element, Service)
 export class DataForm {
@@ -26,6 +27,7 @@ export class DataForm {
   @bindable nameCheck;
   @bindable POTypes;
   @bindable UOmUnit;
+  @bindable Price;
 
   POTypes = [' ','SALES', 'UNIT']
 
@@ -97,6 +99,8 @@ export class DataForm {
       this.data.Details = this.data.Details || [];
       this.data.LampStandards = this.data.LampStandards || [];
       this.data.BeforeQuantity = this.data.OrderQuantity;
+      console.log(this.data);
+      this.Price = Number(this.data.Price);
 
       if(this.data.POType == "SALES"){
         this.nameCheck=true;
@@ -113,16 +117,21 @@ export class DataForm {
     }
   }
 
-  @computedFrom("data.Buyer")
-  get buyerType() {
-    this.ekspor = false;
-    if (this.data.Buyer) {
-      if (this.data.Buyer.Type.toLowerCase() == "ekspor" || this.data.Buyer.Type.toLowerCase() == "export") {
-        this.ekspor = true;
-      }
-    }
-    return this.ekspor;
+
+  priceChanged(newValue, OldValue) {
+    console.log(this.Price);
+    this.data.Price = this.Price;
   }
+  // @computedFrom("data.Buyer")
+  // get buyerType() {
+  //   this.ekspor = false;
+  //   if (this.data.Buyer) {
+  //     if (this.data.Buyer.Type.toLowerCase() == "ekspor" || this.data.Buyer.Type.toLowerCase() == "export") {
+  //       this.ekspor = true;
+  //     }
+  //   }
+  //   return this.ekspor;
+  // }
 
   get fpSalesContractLoader() {
     return FinishingPrintingSalesContractLoader;
@@ -497,6 +506,10 @@ export class DataForm {
 
   get accountLoader() {
     return AccountLoader;
+  }
+
+  get currencyLoader() {
+    return CurrencyLoader;
   }
 
   text = (data) => {
