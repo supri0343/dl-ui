@@ -1,5 +1,6 @@
 import { inject, bindable } from "aurelia-framework";
 import { Service } from "./service";
+import { formatAccountingNumber } from "../../../../utils/accounting-utils";
 var moment = require("moment");
 
 @inject(Service)
@@ -29,6 +30,9 @@ export class List {
 
   tableData = [];
 
+  formatNumber(value) {
+    return formatAccountingNumber(value); // Call the function
+  }
   searching() {
     var args = {
       dateTo: this.dateTo ? moment(this.dateTo).format("YYYY-MM-DD") : "",
@@ -38,74 +42,32 @@ export class List {
       this.data = result.data;
 
       this.RawMaterialBeginningBalancePrice =
-        result.data.RawMaterialBeginningBalancePrice.toLocaleString("en-EN", {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2,
-        });
+        result.data.RawMaterialBeginningBalancePrice;
       this.RawMaterialReceiptPurchasePrice =
-        result.data.RawMaterialReceiptPurchasePrice.toLocaleString("en-EN", {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2,
-        });
-      this.RawMaterialExpendPrice =
-        result.data.RawMaterialExpendPrice.toLocaleString("en-EN", {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2,
-        });
-      this.RawMaterialAvailablePrice =
-        result.data.RawMaterialAvailablePrice.toLocaleString("en-EN", {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2,
-        });
+        result.data.RawMaterialReceiptPurchasePrice;
+      this.RawMaterialExpendPrice = result.data.RawMaterialExpendPrice;
+      this.RawMaterialAvailablePrice = result.data.RawMaterialAvailablePrice;
       this.RawMaterialFinalInventoryPrice =
-        result.data.RawMaterialFinalInventoryPrice.toLocaleString("en-EN", {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2,
-        });
+        result.data.RawMaterialFinalInventoryPrice;
 
-      this.WIPBeginningBalancePrice =
-        result.data.WIPBeginningBalancePrice.toLocaleString("en-EN", {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2,
-        });
+      this.WIPBeginningBalancePrice = result.data.WIPBeginningBalancePrice;
 
-      this.WIPEndBalancePrice = result.data.WIPEndBalancePrice.toLocaleString(
-        "en-EN",
-        {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2,
-        }
-      );
+      this.WIPEndBalancePrice = result.data.WIPEndBalancePrice;
 
       this.FinishedGoodsBeginningBalancePrice =
-        result.data.FinishedGoodsBeginningBalancePrice.toLocaleString("en-EN", {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2,
-        });
+        result.data.FinishedGoodsBeginningBalancePrice;
 
       this.FinishedGoodsEndBalancePrice =
-        result.data.FinishedGoodsEndBalancePrice.toLocaleString("en-EN", {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2,
-        });
+        result.data.FinishedGoodsEndBalancePrice;
       this.bebanPokok =
         result.data.WIPEndBalancePrice + result.data.RawMaterialExpendPrice;
 
       this.bebanPokokPenjualan =
         result.data.FinishedGoodsEndBalancePrice + this.bebanPokok;
 
-      this.bebanPokokPrice = this.bebanPokok.toLocaleString("en-EN", {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
-      });
+      this.bebanPokokPrice = this.bebanPokok;
 
-      this.bebanPokokPenjualanPrice = this.bebanPokokPenjualan.toLocaleString(
-        "en-EN",
-        {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2,
-        }
-      );
+      this.bebanPokokPenjualanPrice = this.bebanPokokPenjualan;
 
       this.costOfGoodsSold = this.RawMaterialExpendPrice;
       //get show data or not by checking the length of the data
