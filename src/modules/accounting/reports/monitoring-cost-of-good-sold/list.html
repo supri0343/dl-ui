@@ -22,11 +22,11 @@
             <table class="table table-bordered table-hover" border="1">
                 <tr>
                     <td width="700">Persediaan Awal Bahan Baku</td>
-                    <td class="right-align">${RawMaterialBeginningBalancePrice}</td>
+                    <td class="right-align">${formatNumber(RawMaterialBeginningBalancePrice)}</td>
                 </tr>
                 <tr>
                     <td>Pembelian</td>
-                    <td>${RawMaterialReceiptPurchasePrice}</td>
+                    <td>${formatNumber(RawMaterialReceiptPurchasePrice)}</td>
                 </tr>
                 <tr>
                     <td>Beban Angkutan Masuk</td>
@@ -34,15 +34,15 @@
                 </tr>
                 <tr>
                     <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bahan Tersedia untuk di pakai</td>
-                    <td>${RawMaterialAvailablePrice}</td>
+                    <td>${formatNumber(RawMaterialAvailablePrice)}</td>
                 </tr>
                 <tr>
                     <td>Persediaan Akhir Bahan Baku</td>
-                    <td>${RawMaterialFinalInventoryPrice}</td>
+                    <td>${formatNumber(RawMaterialFinalInventoryPrice)}</td>
                 </tr>
                 <tr>
                     <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pemakaian Bahan Baku</td>
-                    <td>${RawMaterialExpendPrice}</td>
+                    <td>${formatNumber(RawMaterialExpendPrice)}</td>
                 </tr>
             </table>
         </section>
@@ -91,7 +91,7 @@
                 </tr>
                 <tr>
                     <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Jumlah Biaya Produksi</td>
-                    <td>${costOfGoodsSold}</td>
+                    <td>${formatNumber(costOfGoodsSold)}</td>
                 </tr>
             </table>
         </section>
@@ -101,17 +101,17 @@
             <table class="table table-bordered table-hover" border="1">
                 <tr>
                     <td width="700">Persediaan Awal Barang Dalam Proses</td>
-                    <td>${WIPBeginningBalancePrice}</td>
+                    <td>${formatNumber(WIPBeginningBalancePrice)}</td>
                 </tr>
                 <tr>
                     <td>Persediaan Akhir Barang Dalam Proses</td>
-                    <td>${WIPEndBalancePrice}</td>
+                    <td>${formatNumber(WIPEndBalancePrice)}</td>
                 </tr>
                 <tr>
                     <td>
                         <h5 style="font-weight: bold;">BEBAN POKOK PRODUKSI (HARGA POKOK PRODUKSI)</h5>
                     </td>
-                    <td>${bebanPokokPrice}</td>
+                    <td>${formatNumber(bebanPokokPrice)}</td>
                 </tr>
             </table class="table table-bordered table-hover" border="1">
         </section>
@@ -121,7 +121,7 @@
             <table class="table table-bordered table-hover" border="1">
                 <tr>
                     <td width="700">Persediaan Awal Barang Jadi</td>
-                    <td>${FinishedGoodsBeginningBalancePrice}</td>
+                    <td>${formatNumber(FinishedGoodsBeginningBalancePrice)}</td>
                 </tr>
                 <tr>
                     <td>Pembelian</td>
@@ -129,7 +129,7 @@
                 </tr>
                 <tr>
                     <td>Persediaan Akhir Barang Jadi</td>
-                    <td>${FinishedGoodsEndBalancePrice}</td>
+                    <td>${formatNumber(FinishedGoodsEndBalancePrice)}</td>
                 </tr>
             </table class="table table-bordered table-hover" border="1">
             <br>
@@ -138,7 +138,7 @@
                     <td width="700">
                         <h5 style="font-weight: bold;">BEBAN POKOK PENJUALAN (HARGA POKOK PENJUALAN)</h5>
                     </td>
-                    <td>${bebanPokokPenjualanPrice}</td>
+                    <td>${formatNumber(bebanPokokPenjualanPrice)}</td>
                 </tr>
             </table>
         </section>
