@@ -47,6 +47,10 @@ export class View {
                 }
             }
         }
+
+        if(this.data.IsUsed){
+              this.deleteCallback = null;
+        }
     }
 
     cancelCallback(event) {
